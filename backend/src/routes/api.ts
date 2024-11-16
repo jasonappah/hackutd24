@@ -26,7 +26,14 @@ index.post('/image', upload.single('image'), async (req, res) => {
         return;
     }
 
-    await uploadFile(image);
+    try {
+        await uploadFile(image);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, error: 'Error uploading image' });
+        return;
+    }
+
     res.json({ success: true, error: null });
 });
 

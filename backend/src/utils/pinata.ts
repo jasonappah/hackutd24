@@ -7,15 +7,17 @@ const pinata = new PinataSDK({
     pinataJwt: process.env.PINATA_JWT
 });
 
+const generateTestMetadata = (): Record<string, string> => ({
+    driverName: faker.person.fullName(),
+    passengerName: faker.person.fullName(),
+    timestamp: new Date().toUTCString()
+});
+
 const uploadFile = async (file: Express.Multer.File) => {
     const fileToUpload = new File([file.buffer], file.filename , { type: file.mimetype });
     return await pinata.upload.file(fileToUpload, {
         metadata: {
-            keyvalues: {
-                driverName: faker.person.fullName(),
-                passengerName: faker.person.fullName(),
-                timestamp: new Date().toUTCString()
-            }
+            keyvalues: generateTestMetadata()
         }
     });
 };
