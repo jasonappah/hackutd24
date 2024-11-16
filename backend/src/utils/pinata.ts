@@ -1,7 +1,6 @@
 import { PinataSDK } from 'pinata';
 import 'dotenv/config';
 import { faker } from '@faker-js/faker/locale/en';
-import { v6 as uuidv6 } from 'uuid';
 
 const pinata = new PinataSDK({
     pinataGateway: process.env.PINATA_GATEWAY,
@@ -9,11 +8,8 @@ const pinata = new PinataSDK({
 });
 
 const uploadFile = async (file: Express.Multer.File) => {
-    const uuid = uuidv6();
-    const originalExtension = file.originalname.split('.').pop();
-
-    const fileToUpload = new File([file.buffer], `${uuid}.${originalExtension}` , { type: file.mimetype });
-    const uploadedFile = await pinata.upload.file(fileToUpload, {
+    const fileToUpload = new File([file.buffer], file.filename , { type: file.mimetype });
+    return await pinata.upload.file(fileToUpload, {
         metadata: {
             keyvalues: {
                 driverName: faker.person.fullName(),
@@ -22,14 +18,9 @@ const uploadFile = async (file: Express.Multer.File) => {
             }
         }
     });
-
-    return uploadedFile;
 };
 
-const listAllFiles = async () => {
-    const allFiles = await pinata.files.list().order('DESC');
-    return allFiles;
-};
+const listAllFiles = async () => await pinata.files.list().order('DESC');
 
 
 export { uploadFile, listAllFiles };

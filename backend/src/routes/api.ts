@@ -1,8 +1,13 @@
 import { Router } from 'express';
 import { uploadFile, listAllFiles } from '../utils/pinata';
 import multer from 'multer';
+import { v6 as uuidv6 } from 'uuid';
 
-const upload = multer({ storage: multer.memoryStorage() });
+const storage = multer.diskStorage({
+    destination: './uploads',
+    filename: (req, file, cb) => cb(null, `${uuidv6()}.${file.originalname.split('.').pop()}`),
+});
+const upload = multer({ storage });
 
 const index = Router();
 
