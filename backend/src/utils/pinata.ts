@@ -6,7 +6,7 @@ import { envConfig } from '../config';
 import { v6 as uuidv6 } from 'uuid';
 
 const pinata = new PinataSDK({
-    pinataGateway: envConfig.PINATA_GATEWAY_URL,
+    pinataGateway: envConfig.PINATA_GATEWAY,
     pinataJwt: envConfig.PINATA_JWT
 });
 
