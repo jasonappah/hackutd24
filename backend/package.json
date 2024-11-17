@@ -21,7 +21,8 @@
     "validate-prettiness": "yarn run-prettier -c",
     "make-prettier": "yarn run-prettier --write",
     "eslint": "eslint \"src/*.ts\" \"src/*/*.ts\"",
-    "dev": "ts-node-dev src/server.ts"
+    "dev": "ts-node-dev src/server.ts",
+    "create-public-group": "ts-node src/cli/createPublicGroup.ts"
   },
   "keywords": [],
   "author": "",
@@ -30,15 +31,18 @@
   "dependencies": {
     "@faker-js/faker": "^9.2.0",
     "@types/jest": "^29.5.14",
+    "axios": "^1.7.7",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
     "express-rate-limit": "^7.4.1",
     "morgan": "^1.10.0",
     "multer": "1.4.5-lts.1",
+    "p-queue": "v6",
     "pinata": "^1.8.0",
     "ts-node": "^10.9.2",
-    "uuid": "^11.0.3"
+    "uuid": "^11.0.3",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@eslint/js": "^9.13.0",
