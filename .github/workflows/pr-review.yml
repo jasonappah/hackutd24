@@ -18,7 +18,7 @@ jobs:
           id: pragent
           uses: Codium-ai/pr-agent@main
           env:
-            CONFIG.MODEL: sambanova/Meta-Llama-3.1-8B-Instruct"
+            CONFIG.MODEL: "sambanova/Meta-Llama-3.2-3B-Instruct"
             CONFIG.MODEL_TURBO: "sambanova/Meta-Llama-3.2-3B-Instruct"
             CONFIG.CUSTOM_MODEL_MAX_TOKENS: 64000
             SAMBANOVA_API_KEY: ${{ secrets.SAMBANOVA_API_KEY }}
