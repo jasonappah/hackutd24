@@ -1,6 +1,9 @@
 const BASE_URL = "http://localhost:3000";
 const PINATA_GATEWAY_URL = "https://amethyst-accessible-ox-864.mypinata.cloud";
-  
+import {
+  useQuery,
+} from '@tanstack/react-query'  
+
 export interface GetAllImagesResponse {
     success: true;
     error: null;
@@ -39,3 +42,14 @@ export async function getAllImages() {
 }
 
 export const pinataCidToUrl = (cid: string) => `${PINATA_GATEWAY_URL}/files/${cid}?img-width=500&img-fit=scale-down`;
+
+export function useAllImages() {
+    return useQuery({
+        queryKey: ['all-images'],
+        queryFn: async () => {
+            const response = await getAllImages();
+            return response;
+        },
+        refetchInterval: 60 * 1000,
+    });
+}

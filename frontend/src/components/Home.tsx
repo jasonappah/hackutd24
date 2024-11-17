@@ -1,49 +1,34 @@
-import { useEffect, useState } from 'react'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { getAllImages, pinataCidToUrl, PinataFile } from '../lib/requests'
-import { Package, User, Calendar, ImageIcon, CarTaxiFront } from 'lucide-react'
+import { pinataCidToUrl, useAllImages } from '../lib/requests'
+import { Package, User, Calendar, ImageIcon, CarTaxiFront, LoaderCircle } from 'lucide-react'
 
-const getFirstNameFromFullName = (fullName: string) => fullName.split(' ')[0]
+const getFirstNameFromFullName = (fullName: string) => {
+  const split = fullName.split(' ')
+  return split.find(word => word !== 'Mr.' && word !== 'Mrs.' && word !== 'Ms.' && word !== 'Dr.')
+}
 
 export function Home() {
-  const [lostItems, setLostItems] = useState<PinataFile[]>([])
-    const [loading, setLoading] = useState(true)
-    const [error, setError] = useState<string | null>(null)
+    const {data: lostItems, isLoading, error, isRefetching} = useAllImages()
   
-    useEffect(() => {
-      const fetchLostItems = async () => {
-        try {
-          const response = await getAllImages()
-          if (response.success) {
-            setLostItems(response.data.files)
-          } else {
-            setError('Failed to fetch lost items')
-          }
-        } catch (err) {
-          setError('An error occurred while fetching data')
-        } finally {
-          setLoading(false)
-        }
-      }
-  
-      fetchLostItems()
-    }, [])
-  
-    if (loading) {
+    
+    if (isLoading) {
       return <div className="flex justify-center items-center h-screen">Loading...</div>
     }
   
     if (error) {
-      return <div className="flex justify-center items-center h-screen text-red-500">{error}</div>
+      return <div className="flex justify-center items-center h-screen text-red-500">An error occurred. Please try again later.</div>
     }
   
     return (
       <div className="container mx-auto p-4">
-        <h1 className="text-2xl font-bold mb-6">Items Left Behind in Ubers</h1>
+        <div className="flex mb-6 gap-2">
+          <h1 className="text-2xl font-bold mb-6">Items Left Behind in Ubers</h1>
+          {isRefetching && <div className="flex justify-center items-center h-screen"><LoaderCircle className="animate-spin h-5 w-5 text-primary-foreground" /> </div>}
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {lostItems.map((item) => (
+          {lostItems?.data.files.map((item) => (
             <Card key={item.id} className="flex flex-col">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
