@@ -24,3 +24,4 @@ jobs:
             CONFIG.MODEL_TURBO: "openai/Meta-Llama-3.1-70B-Instruct"
             CONFIG.CUSTOM_MODEL_MAX_TOKENS: 64000
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            litellm.set_verbose: true
