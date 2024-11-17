@@ -23,7 +23,7 @@ export function Home() {
     return (
       <div className="container mx-auto p-4">
         <div className="flex mb-6 gap-2">
-          <h1 className="text-2xl font-bold mb-6">Items Left Behind in Ubers</h1>
+          <h1 className="text-2xl font-bold mb-6">Backtracc</h1>
           {isRefetching && <div className="flex justify-center items-center h-screen"><LoaderCircle className="animate-spin h-5 w-5 text-primary-foreground" /> </div>}
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
