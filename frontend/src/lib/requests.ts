@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:3000";
+const BASE_URL = "https://api.backtracc.tech";
 const PINATA_GATEWAY_URL = "https://amethyst-accessible-ox-864.mypinata.cloud";
 import {
   useQuery,
