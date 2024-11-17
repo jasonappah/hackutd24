@@ -4,7 +4,7 @@ terraform {
       source  = "cloudflare/cloudflare"
       version = "4.46.0"
     }
-    
+
     dotenv = {
       source  = "jrhouston/dotenv"
       version = "~> 1.0"
@@ -40,17 +40,17 @@ resource "cloudflare_pages_project" "frontend" {
   account_id        = var.account_id
   name              = var.frontend_project_name
   production_branch = var.frontend_production_branch
-  
+
   build_config {
     root_dir            = "frontend"
     build_command       = "npm run build"
     destination_dir     = "dist"
   }
-  
+
   source {
       type = "github"
       config {
-        # NOTE(@jasonappah): deploying from a fork of the repo to address permissions issues, 
+        # NOTE(@jasonappah): deploying from a fork of the repo to address permissions issues,
         # as my personal Cloudflare account is already linked to my personal GitHub
         # account and seems not to play nicely with deploying repos owned by other GitHub users.
         owner                         = "jasonappah"
@@ -78,3 +78,13 @@ resource "cloudflare_record" "frontend_domain_record" {
   type    = "CNAME"
   proxied = true
 }
+
+resource "cloudflare_record" "backend_domain_record" {
+  zone_id = var.zone_id
+  name    = "api.${var.domain}"
+  content   = "hackutd24-latest.onrender.com"
+  type    = "CNAME"
+  proxied = false
+}
+
+
