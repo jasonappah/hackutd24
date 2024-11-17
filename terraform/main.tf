@@ -41,15 +41,6 @@ resource "cloudflare_pages_project" "frontend" {
   name              = var.frontend_project_name
   production_branch = var.frontend_production_branch
   
-  deployment_configs {
-    preview {
-      environment_variables = data.dotenv.current.env
-    }
-    production {
-      environment_variables = data.dotenv.current.env
-    }
-  }
-  
   build_config {
     root_dir            = "frontend"
     build_command       = "npm run build"
