@@ -12,7 +12,7 @@ const index = Router();
 
 index.post('/imageb64', async (req, res) => {
     console.log('Processing image...');
-    const image = req.body.image;
+    const {image} = req.body;
 
     if (!image) {
         res.status(400).json({ success: false, error: 'No image provided' });
