@@ -2,7 +2,9 @@ import requests
 import cv2
 from serial import Serial
 
+
 BACKEND_HOST = "http://TBD:TBD"
+OLLAMA_HOST = 
 CAMERA_ID = 0
 SERIAL_PORT = "/dev/ttyACM0"
 
@@ -18,11 +20,10 @@ def take_picture() -> bytes | None:
       return None
   
   _, jpg = cv2.imencode('.jpg', frame)
+  
   bytes = jpg.tobytes()
 
   return bytes
-
-take_picture()
 
 def serial_listen():
   # sample serial message rcvd by pi 4 for sending occupancy to hub: "0 0 0\n"
@@ -31,7 +32,17 @@ def serial_listen():
   with Serial(SERIAL_PORT, 9600) as ser:
     while True:
       data = ser.readline()
+      occupied = data.split(" ")
+      if max(occupied) == 1:
+        #Take the picture
+        pic_bytes = take_picture()
+        requests.post(f"{BACKEND_HOST}/upload", files={"image": pic_bytes})
+
       print(data)
 
-serial_listen()
+
+def local_testing()
+
+
+# serial_listen()
   
