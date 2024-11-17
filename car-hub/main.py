@@ -73,18 +73,16 @@ def local_testing():
   """
   
   print(requests.post(OLLAMA_HOST, 
-                      json={
-                        "model":"llama3.2-vision",
-                        "prompt":prompt,
-                        "temperature":0.3,
-                        "top_p":0.8,
-                        "stream": False,
-                        "images": [pic_base64bytes]
-                      }
-                      
-                      ).json()["response"])
+    json={
+      "model":"llama3.2-vision",
+      "prompt":prompt,
+      "temperature":0.5,
+      "top_p":0.8,
+      "top_k": 60,
+      "stream": False,
+      "images": [pic_base64bytes]
+    }
+    
+    ).json()["response"])
 
 server_testing()
-# local_testing()
-# serial_listen()
-  
