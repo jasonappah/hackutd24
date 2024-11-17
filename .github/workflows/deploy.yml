@@ -1,0 +1,18 @@
+name: deploy to render
+
+on:
+    workflow_run:
+        workflows: ["build docker image"]
+        types:
+            - completed
+
+jobs:
+    deployment:
+        runs-on: ubuntu-latest
+        if: ${{ github.event.workflow_run.conclusion == 'success' }}
+        steps:
+        - name: Deploy Stage
+          uses: fjogeleit/http-request-action@v1
+          with:
+                url: ${{ secrets.WEBHOOK_URL }}
+                method: 'GET'
