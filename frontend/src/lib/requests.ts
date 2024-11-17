@@ -30,8 +30,7 @@ export interface Keyvalues {
     passengerName: string;
     timestamp: string;
     
-    // TODO: below is not included from the backend but should be in the future
-    itemsLeftBehind?: string[]
+    description?: string
 }
 
 
