@@ -2,7 +2,7 @@ terraform {
   required_providers {
     cloudflare = {
       source  = "cloudflare/cloudflare"
-      version = "~> 4.0"
+      version = "4.46.0"
     }
     
     dotenv = {
@@ -36,7 +36,7 @@ variable "frontend_production_branch" {
   default = "main"
 }
 
-resource "cloudflare_pages_project" "deployment_configs" {
+resource "cloudflare_pages_project" "frontend" {
   account_id        = var.account_id
   name              = var.frontend_project_name
   production_branch = var.frontend_production_branch
@@ -57,21 +57,21 @@ resource "cloudflare_pages_project" "deployment_configs" {
   }
   
   source {
-    type = "github"
-    config {
-      # NOTE(@jasonappah): deploying from a fork of the repo to address permissions issues, 
-      # as my personal Cloudflare account is already linked to my personal GitHub
-      # account and seems not to play nicely with deploying repos owned by other GitHub users.
-      owner                         = "jasonappah"
-      repo_name                     = "hackutd24"
-      production_branch             = var.frontend_production_branch
-      pr_comments_enabled           = true
-      deployments_enabled           = true
-      production_deployment_enabled = true
-      preview_deployment_setting    = "custom"
-      preview_branch_excludes       = [var.frontend_production_branch]
+      type = "github"
+      config {
+        # NOTE(@jasonappah): deploying from a fork of the repo to address permissions issues, 
+        # as my personal Cloudflare account is already linked to my personal GitHub
+        # account and seems not to play nicely with deploying repos owned by other GitHub users.
+        owner                         = "jasonappah"
+        repo_name                     = "hackutd24"
+        production_branch             = var.frontend_production_branch
+        pr_comments_enabled           = true
+        deployments_enabled           = true
+        production_deployment_enabled = true
+        preview_deployment_setting    = "custom"
+        preview_branch_excludes       = [var.frontend_production_branch]
+      }
     }
-  }
 }
 
 resource "cloudflare_pages_domain" "frontend_domain" {
