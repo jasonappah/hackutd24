@@ -79,3 +79,11 @@ resource "cloudflare_pages_domain" "frontend_domain" {
   project_name = var.frontend_project_name
   domain       = var.domain
 }
+
+resource "cloudflare_record" "frontend_domain_record" {
+  zone_id = var.zone_id
+  name    = var.domain
+  content   = "${var.frontend_project_name}.pages.dev"
+  type    = "CNAME"
+  proxied = true
+}
