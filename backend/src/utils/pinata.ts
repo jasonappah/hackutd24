@@ -38,7 +38,7 @@ const uploadFileBase64 = async (base64: string, description: string) => {
         metadata: {
             keyvalues: {
                 ...generateTestMetadata(),
-                description: description
+                description
             }
         }
     }).group(envConfig.PINATA_PUBLIC_GROUP_ID);
