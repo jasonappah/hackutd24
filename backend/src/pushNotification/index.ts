@@ -13,7 +13,7 @@ const client = axios.create({
 
 const pushNotifcation = async (message: string, imageCID: string) => {
     try {
-        await client.post(`/${envConfig.NTFY_TOPIC_NAME}`, message, {
+        await client.post(`/${envConfig.NTFY_TOPIC_NAME}`, `You left behind some stuff: ${message}`, {
             headers: {
                 Attach: `https://${envConfig.PINATA_GATEWAY}/files/${imageCID}?img-width=500&img-fit=scale-down`
             }

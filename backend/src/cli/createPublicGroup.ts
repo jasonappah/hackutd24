@@ -1,3 +1,3 @@
-import { createPublicGroup } from '../utils/pinata';
+import { createPublicGroup } from '../pinata';
 
 createPublicGroup().then(console.log);
