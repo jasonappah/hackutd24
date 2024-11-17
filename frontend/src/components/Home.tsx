@@ -73,11 +73,7 @@ export function Home() {
               <CardFooter>
                 <ScrollArea className="h-20 w-full">
                   <div className="flex flex-wrap gap-2">
-                    {item.keyvalues.itemsLeftBehind?.map((leftItem, index) => (
-                      <Badge key={index} variant="secondary">
-                        {leftItem}
-                      </Badge>
-                    )) || <span className="text-sm text-muted-foreground">No items specified</span>}
+                    {item.keyvalues.description || <span className="text-sm text-muted-foreground">No items specified</span>}
                   </div>
                 </ScrollArea>
               </CardFooter>
