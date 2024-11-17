@@ -4,7 +4,7 @@ import axios from 'axios';
 import { envConfig } from '../config';
 import { prompt } from '../aiPrompt';
 import PQueue from 'p-queue';
-import { writeFileSync, readFileSync } from 'fs';
+import { readFileSync } from 'fs';
 import { pushNotifcation } from '../pushNotification';
 
 const q = new PQueue({ concurrency: 1 });
@@ -22,7 +22,7 @@ index.post('/imageb64', async (req, res) => {
 
     res.sendStatus(201);
 
-    writeFileSync('./test.jpg', Buffer.from(image, 'base64'));
+    // writeFileSync('./test.jpg', Buffer.from(image, 'base64'));
 
 
     q.add(async () => {
