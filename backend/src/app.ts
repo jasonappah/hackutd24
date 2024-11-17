@@ -2,6 +2,7 @@ import * as path from 'path';
 
 import express from 'express';
 import logger from 'morgan';
+import cors from 'cors';
 // import rateLimit from 'express-rate-limit';
 
 // Routes
@@ -28,6 +29,7 @@ export const app = express();
 
 // Express configuration
 app.set('port', process.env.PORT || 3000);
+app.use(cors())
 app.use(logger('dev'));
 
 // app.use(express.json());
