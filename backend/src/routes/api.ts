@@ -5,6 +5,7 @@ import { envConfig } from '../config';
 import { prompt } from '../aiPrompt';
 import PQueue from 'p-queue';
 import { writeFileSync, readFileSync } from 'fs';
+import { pushNotifcation } from '../pushNotification';
 
 const q = new PQueue({ concurrency: 1 });
 
@@ -87,11 +88,13 @@ index.post('/imageb64', async (req, res) => {
 
             console.log(responseText);
 
-            if (responseText.toLowerCase() != 'none') await uploadFileBase64(image, responseText);
+            if (responseText.toLowerCase() != 'none') {
+                const uploadedFile = await uploadFileBase64(image, responseText);
+                await pushNotifcation(responseText, uploadedFile.cid);
+            }
             console.log('Process image done!');
         } catch (error) {
             console.error(error);
-            res.status(500).json({ success: false, error: 'Error processing image' });
             return;
         }
     });
