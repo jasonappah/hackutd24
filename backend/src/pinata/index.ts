@@ -1,5 +1,4 @@
 import { PinataSDK } from 'pinata';
-import 'dotenv/config';
 import { faker } from '@faker-js/faker/locale/en';
 import { readFileSync } from 'fs';
 import { envConfig } from '../config';

@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { listAllFiles, uploadFileBase64 } from '../utils/pinata';
+import { listAllFiles, uploadFileBase64 } from '../pinata';
 import axios from 'axios';
 import { envConfig } from '../config';
 import { prompt } from '../aiPrompt';
