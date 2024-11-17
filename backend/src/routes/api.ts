@@ -1,37 +1,46 @@
 import { Router } from 'express';
-import { uploadFile, listAllFiles } from '../utils/pinata';
-import multer from 'multer';
-import { v6 as uuidv6 } from 'uuid';
+import { listAllFiles, uploadFileBase64 } from '../utils/pinata';
+import axios from 'axios';
+import { envConfig } from '../config';
+import { prompt } from '../aiPrompt';
+import PQueue from 'p-queue';
 
-const storage = multer.diskStorage({
-    destination: './uploads',
-    filename: (req, file, cb) => cb(null, `${uuidv6()}.${file.originalname.split('.').pop()}`),
-});
-const upload = multer({ storage });
+const q = new PQueue({ concurrency: 1 });
 
 const index = Router();
 
-index.post('/image', upload.single('image'), async (req, res) => {
-    const image = req.file;
+index.post('/imageb64', async (req, res) => {
+    const image = req.body.image;
 
     if (!image) {
         res.status(400).json({ success: false, error: 'No image provided' });
         return;
     }
 
-    // TODO: validate image using file-type
-    if (!image.mimetype.startsWith('image/')) {
-        res.status(400).json({ success: false, error: 'File is not an image' });
-        return;
-    }
+    res.sendStatus(201);
 
-    try {
-        res.json({ success: true, error: null, data: await uploadFile(image) });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ success: false, error: 'Error uploading image' });
-        return;
-    }
+    q.add(async () => {
+        try {
+            const response = await axios.post(`${envConfig.OLLAMA_ENDPOINT_URL}/api/generate`, {
+                model: 'llama3.2-vision',
+                prompt,
+                stream: false,
+                temperature: 0.3,
+                top_p: 0.8,
+                images: [image]
+            });
+
+            console.log(response.data.response);
+
+            await uploadFileBase64(image, response.data.response);
+            
+            console.log('Process image done!');
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ success: false, error: 'Error processing image' });
+            return;
+        }
+    });
 });
 
 index.get('/all-images', async (req, res) => {

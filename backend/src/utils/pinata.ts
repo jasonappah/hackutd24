@@ -2,10 +2,12 @@ import { PinataSDK } from 'pinata';
 import 'dotenv/config';
 import { faker } from '@faker-js/faker/locale/en';
 import { readFileSync } from 'fs';
+import { envConfig } from '../config';
+import { v6 as uuidv6 } from 'uuid';
 
 const pinata = new PinataSDK({
-    pinataGateway: process.env.PINATA_GATEWAY,
-    pinataJwt: process.env.PINATA_JWT
+    pinataGateway: envConfig.PINATA_GATEWAY_URL,
+    pinataJwt: envConfig.PINATA_JWT
 });
 
 pinata.testAuthentication()
@@ -27,7 +29,19 @@ const uploadFile = async (file: Express.Multer.File) => {
         metadata: {
             keyvalues: generateTestMetadata()
         }
-    }).group(process.env.PINATA_PUBLIC_GROUP_ID as string);
+    }).group(envConfig.PINATA_PUBLIC_GROUP_ID);
+};
+
+const uploadFileBase64 = async (base64: string, description: string) => {
+    const fileToUpload = new File([Buffer.from(base64, 'base64')], `${uuidv6()}.jpeg`, { type: 'image/jpeg' });
+    return await pinata.upload.file(fileToUpload, {
+        metadata: {
+            keyvalues: {
+                ...generateTestMetadata(),
+                description: description
+            }
+        }
+    }).group(envConfig.PINATA_PUBLIC_GROUP_ID);
 };
 
 const createPublicGroup = async () => {
@@ -39,7 +53,7 @@ const createPublicGroup = async () => {
 
 const listAllGroups = async () => await pinata.groups.list();
 
-const listAllFiles = async () => await pinata.files.list().group(process.env.PINATA_PUBLIC_GROUP_ID as string).order('DESC').limit(10);
+const listAllFiles = async () => await pinata.files.list().group(envConfig.PINATA_PUBLIC_GROUP_ID).order('DESC').limit(10);
 
 
-export { uploadFile, listAllFiles, createPublicGroup, listAllGroups };
+export { uploadFile, listAllFiles, createPublicGroup, listAllGroups, uploadFileBase64 };
