@@ -19,7 +19,6 @@ index.post('/image', upload.single('image'), async (req, res) => {
         return;
     }
 
-
     // TODO: validate image using file-type
     if (!image.mimetype.startsWith('image/')) {
         res.status(400).json({ success: false, error: 'File is not an image' });
@@ -27,14 +26,12 @@ index.post('/image', upload.single('image'), async (req, res) => {
     }
 
     try {
-        await uploadFile(image);
+        res.json({ success: true, error: null, data: await uploadFile(image) });
     } catch (error) {
         console.error(error);
         res.status(500).json({ success: false, error: 'Error uploading image' });
         return;
     }
-
-    res.json({ success: true, error: null });
 });
 
 index.get('/all-images', async (req, res) => {

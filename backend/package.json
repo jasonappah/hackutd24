@@ -21,7 +21,8 @@
     "validate-prettiness": "yarn run-prettier -c",
     "make-prettier": "yarn run-prettier --write",
     "eslint": "eslint \"src/*.ts\" \"src/*/*.ts\"",
-    "dev": "ts-node-dev src/server.ts"
+    "dev": "ts-node-dev src/server.ts",
+    "create-public-group": "ts-node src/cli/createPublicGroup.ts"
   },
   "keywords": [],
   "author": "",
