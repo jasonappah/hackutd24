@@ -7,7 +7,7 @@ import PQueue from 'p-queue';
 import { readFileSync } from 'fs';
 import { pushNotifcation } from '../pushNotification';
 
-const q = new PQueue({ concurrency: 1 });
+const q = new PQueue({ concurrency: 3 });
 
 const index = Router();
 
