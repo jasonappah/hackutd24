@@ -49,6 +49,6 @@ export function useAllImages() {
             const response = await getAllImages();
             return response;
         },
-        refetchInterval: 60 * 1000,
+        // refetchInterval: 60 * 1000,
     });
 }

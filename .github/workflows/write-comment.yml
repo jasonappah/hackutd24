@@ -1,0 +1,25 @@
+on:
+    pull_request:
+        types: [opened]
+
+jobs:
+  comment_pr:
+    if: ${{ github.event.sender.type != 'Bot' }}
+    runs-on: ubuntu-latest
+    name: Comment PR
+    permissions:
+      issues: write
+      pull-requests: write
+      contents: write
+    steps:
+      - name: Comment PR
+        uses: thollander/actions-comment-pull-request@v3
+        with:
+          message: |
+            ### Commands for PR Review:
+            - **Review**: `/review`
+            - **Describe**: `/describe`
+            - **Improve**: `/improve`
+            - **Ask**: `/ask "..."`
+            - **Reflect**: `/reflect`
+            - **Update Changelog**: `/update_changelog`
