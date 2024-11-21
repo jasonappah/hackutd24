@@ -23,3 +23,6 @@ jobs:
             CONFIG.CUSTOM_MODEL_MAX_TOKENS: 64000
             SAMBANOVA_API_KEY: ${{ secrets.SAMBANOVA_API_KEY }}
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            PR_DESCRIPTION.GENERATE_AI_TITLE: true
+            pr_code_suggestions.apply_suggestions_checkbox: true
+            pr_description.enable_help_comment: false
