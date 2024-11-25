@@ -52,7 +52,7 @@ const createPublicGroup = async () => {
 
 const listAllGroups = async () => await pinata.groups.list();
 
-const listAllFiles = async () => await pinata.files.list().group(envConfig.PINATA_PUBLIC_GROUP_ID).order('DESC').limit(50);
+const listAllFiles = async () => await pinata.files.list().group(envConfig.PINATA_PUBLIC_GROUP_ID).order('DESC').limit(30);
 
 
 export { uploadFile, listAllFiles, createPublicGroup, listAllGroups, uploadFileBase64 };
